@@ -124,7 +124,7 @@ $(function () {
     height: '250px'
   });
 
-  /* Morris.js Charts */
+  /*/!* Morris.js Charts *!/
   // Sales chart
   var area = new Morris.Area({
     element   : 'revenue-chart',
@@ -197,7 +197,7 @@ $(function () {
     line.redraw();
   });
 
-  /* The todo list plugin */
+  /!* The todo list plugin *!/
   $('.todo-list').todoList({
     onCheck  : function () {
       window.console.log($(this), 'The element has been checked');
@@ -205,6 +205,6 @@ $(function () {
     onUnCheck: function () {
       window.console.log($(this), 'The element has been unchecked');
     }
-  });
+  });*/
 
 });
