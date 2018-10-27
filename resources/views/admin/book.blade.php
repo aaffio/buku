@@ -5,7 +5,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Customer
+            Buku
             <small>Control panel</small>
         </h1>
         <ol class="breadcrumb">
@@ -17,6 +17,21 @@
     <!-- Main content -->
     <section class="content">
 
+        @if(Session::has('new_book_saved'))
+            <div class="alert alert-success">
+                <span class="close"></span>
+                {{ Session::get('new_book_saved') }}
+            </div>
+        @endif
+        @if(Session::has('book_updated'))
+            <div class="alert alert-success">
+                <span class="close"></span>
+                {{ Session::get('book_updated') }}
+            </div>
+        @endif
+
+        <a class="btn btn-primary" href="{{url('/book/create')}}" role="button" style="float: right;">Buat baru</a>
+
         <table class="table table-hover">
             <thead>
             <tr>
@@ -24,23 +39,21 @@
                 <th scope="col">Judul</th>
                 <th scope="col">Pencipta</th>
                 <th scope="col">Penerbit</th>
-                <th scope="col">Deskripsi</th>
                 <th scope="col">Harga</th>
                 <th scope="col">Tersedia</th>
-                <th scope="col">Status</th>
             </tr>
             </thead>
             <tbody>
+            @foreach($books as $book)
                 <tr>
-                    <th scope="row">Id</th>
-                    <td>Judul</td>
-                    <td>Pencipta</td>
-                    <td>Penerbit</td>
-                    <td>Deskripsi</td>
-                    <td>Harga</td>
-                    <td>Tersedia</td>
-                    <td>Status</td>
+                    <th scope="row">{{$book->id}}</th>
+                    <td>{{$book->judul}}</td>
+                    <td>{{$book->pencipta}}</td>
+                    <td>{{$book->penerbit}}</td>
+                    <td>{{$book->price}}</td>
+                    <td>{{$book->avaiable}}</td>
                 </tr>
+            @endforeach
             </tbody>
         </table>
 

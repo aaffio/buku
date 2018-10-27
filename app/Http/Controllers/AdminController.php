@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Member;
+use App\Model\Book;
 
 class AdminController extends Controller
 {
@@ -73,10 +74,42 @@ class AdminController extends Controller
 
     public function book()
     {
-//        $members = Member::all();
+        $books = Book::all();
         return view('admin.book')
-//            ->with(compact('members'))
+            ->with(compact('books'))
             ;
+    }
+    public function createBook()
+    {
+        return view('admin.book.create');
+    }
+
+
+    public function postCreateBook(Request $request){
+        $data = $request->all();
+        $book = new Book();
+        $book->judul = $data['judul'];
+        $book->pencipta = $data['pencipta'];
+        $book->penerbit = $data['penerbit'];
+        $book->deskripsi = $data['deskripsi'];
+        $book->price = $data['price'];
+        $book->avaiable = true;
+        $book->status = true;
+        if ($request->hasFile('gambar')) {
+            if($request->file('gambar')->isValid()) {
+                try {
+                    $file = $request->file('gambar');
+                    $name = rand(11111, 99999) . '.' . $file->getClientOriginalExtension();
+                    $request->file('gambar')->move("fotoupload", $name);
+                    $book->gambar = $name;
+                } catch (Illuminate\Filesystem\FileNotFoundException $e) {
+
+                }
+            }
+        }
+        $book->save();
+        return redirect()->route('book')
+            ->with('new_book_saved', 'Selamat, buku baru telah ditambahkan');
     }
 
 

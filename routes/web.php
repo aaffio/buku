@@ -32,4 +32,6 @@ Route::post('/member/create', 'AdminController@postCreateMember');
 Route::get('/member/{id}', 'AdminController@getMember');
 Route::post('/member/{id}', 'AdminController@updateMember');
 
-Route::get('/book', 'AdminController@book');
+Route::get('/book', 'AdminController@book')->name('book');
+Route::get('/book/create', 'AdminController@createBook');
+Route::post('/book/create', 'AdminController@postCreateBook');
