@@ -41,6 +41,7 @@
                 <th scope="col">Penerbit</th>
                 <th scope="col">Harga</th>
                 <th scope="col">Tersedia</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -51,7 +52,12 @@
                     <td>{{$book->pencipta}}</td>
                     <td>{{$book->penerbit}}</td>
                     <td>{{$book->price}}</td>
-                    <td>{{$book->avaiable}}</td>
+                    @if($book->avaiable==1)
+                        <td>Tersedia</td>
+                    @else
+                        <td>Tidak Tersedia</td>
+                    @endif
+                    <th scope="row"><a class="btn btn-success" href="{{url('/book/'.$book->id)}}" role="button">Edit</a>
                 </tr>
             @endforeach
             </tbody>

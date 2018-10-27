@@ -35,3 +35,12 @@ Route::post('/member/{id}', 'AdminController@updateMember');
 Route::get('/book', 'AdminController@book')->name('book');
 Route::get('/book/create', 'AdminController@createBook');
 Route::post('/book/create', 'AdminController@postCreateBook');
+Route::get('/book/{id}', 'AdminController@getBook');
+Route::post('/book/{id}', 'AdminController@updateBook');
+
+Route::get('/peminjaman', 'AdminController@peminjaman')->name('peminjaman');
+Route::get('/peminjaman/create', 'AdminController@createBook');
+Route::post('/peminjaman/create', 'AdminController@postCreateBook');
+Route::get('/peminjaman/{id}', 'AdminController@getBook');
+Route::post('/peminjaman/{id}', 'AdminController@updateBook');
+

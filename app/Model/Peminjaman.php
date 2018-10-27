@@ -13,7 +13,7 @@ class Peminjaman extends Model
         return $this->hasOne('App\Model\Member');
     }
 
-    public function getBuku(){
+    public function getBook(){
         return $this->hasOne('App\Model\Book');
     }
 

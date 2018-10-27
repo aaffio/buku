@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Illuminate\Http\Request;
 use App\Model\Member;
 use App\Model\Book;
@@ -39,6 +40,7 @@ class AdminController extends Controller
     {
         return view('admin.member.create');
     }
+
     public function getMember($id)
     {
         $member = Member::findOrFail($id);
@@ -46,7 +48,8 @@ class AdminController extends Controller
             ->with(compact('member'));
     }
 
-    public function postCreateMember(Request $request){
+    public function postCreateMember(Request $request)
+    {
         $data = $request->all();
         $member = new Member();
         $member->nama = $data['nama'];
@@ -60,7 +63,8 @@ class AdminController extends Controller
             ->with('new_member_saved', 'Selamat, member baru telah ditambahkan');
     }
 
-    public function updateMember($id, Request $request){
+    public function updateMember($id, Request $request)
+    {
         $data = $request->all();
         $member = Member::findOrFail($id);
         $member->nama = $data['nama'];
@@ -76,16 +80,16 @@ class AdminController extends Controller
     {
         $books = Book::all();
         return view('admin.book')
-            ->with(compact('books'))
-            ;
+            ->with(compact('books'));
     }
+
     public function createBook()
     {
         return view('admin.book.create');
     }
 
-
-    public function postCreateBook(Request $request){
+    public function postCreateBook(Request $request)
+    {
         $data = $request->all();
         $book = new Book();
         $book->judul = $data['judul'];
@@ -96,15 +100,13 @@ class AdminController extends Controller
         $book->avaiable = true;
         $book->status = true;
         if ($request->hasFile('gambar')) {
-            if($request->file('gambar')->isValid()) {
-                try {
-                    $file = $request->file('gambar');
-                    $name = rand(11111, 99999) . '.' . $file->getClientOriginalExtension();
-                    $request->file('gambar')->move("fotoupload", $name);
-                    $book->gambar = $name;
-                } catch (Illuminate\Filesystem\FileNotFoundException $e) {
+            if ($request->file('gambar')->isValid()) {
+                $file = $request->file('gambar');
+                $date = new DateTime();
+                $name = rand(11111, 99999) . $date->format('Y-m-dH:i:s') . '.' . $file->getClientOriginalExtension();
+                $request->file('gambar')->move("fotoupload", $name);
+                $book->gambar = $name;
 
-                }
             }
         }
         $book->save();
@@ -112,6 +114,26 @@ class AdminController extends Controller
             ->with('new_book_saved', 'Selamat, buku baru telah ditambahkan');
     }
 
+    public function getBook($id)
+    {
+        $buku = Book::findOrFail($id);
+        return view('admin.book.update')
+            ->with(compact('buku'));
+    }
 
+    public function updateBook($id, Request $request)
+    {
+        $data = $request->all();
+        $book = Book::findOrFail($id);
+        $book->judul = $data['judul'];
+        $book->pencipta = $data['pencipta'];
+        $book->penerbit = $data['penerbit'];
+        $book->deskripsi = $data['deskripsi'];
+        $book->price = $data['price'];
+        $book->avaiable = $data['avaiable'];
+        $book->save();
+        return redirect()->route('book')
+            ->with('book_updated', 'Selamat, data buku telah diperbaharui');
+    }
 
 }
